@@ -18,6 +18,7 @@ lark = "^1.1.5"
 
 [tool.poetry.group.dev.dependencies]
 mongomock = "^4.1.2"
+openmock = "^2.2"
 
 [build-system]
 requires = ["poetry-core"]
