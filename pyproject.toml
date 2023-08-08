@@ -15,6 +15,7 @@ opensearch-py = "^2.2.0"
 matplotlib = "^3.7.1"
 ase = "^3.22.1"
 lark = "^1.1.5"
+luqum = "^0.13.0"
 
 [tool.poetry.group.dev.dependencies]
 mongomock = "^4.1.2"

@@ -1114,6 +1114,21 @@ nearley = ["js2py"]
 regex = ["regex"]
 
 [[package]]
+name = "luqum"
+version = "0.13.0"
+description = "A Lucene query parser generating ElasticSearch queries and more !"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "luqum-0.13.0-py3-none-any.whl", hash = "sha256:bf0ac6eb3ca8a6a579ff6dd4bd9d88fbba5d9f559b4f5d864f99c4a6b5061853"},
+    {file = "luqum-0.13.0.linux-x86_64.tar.gz", hash = "sha256:1af57bc37637014460858a2ae4737760015ed0b9d8b23d61f198de4736c174f5"},
+]
+
+[package.dependencies]
+ply = ">=3.11"
+
+[[package]]
 name = "markupsafe"
 version = "2.1.2"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -1718,6 +1733,18 @@ files = [
 [package.extras]
 docs = ["furo (>=2023.3.27)", "proselint (>=0.13)", "sphinx (>=6.2.1)", "sphinx-autodoc-typehints (>=1.23,!=1.23.4)"]
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.3.1)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
+
+[[package]]
+name = "ply"
+version = "3.11"
+description = "Python Lex & Yacc"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "ply-3.11-py2.py3-none-any.whl", hash = "sha256:096f9b8350b65ebd2fd1346b12452efe5b9607f7482813ffca50c22722a807ce"},
+    {file = "ply-3.11.tar.gz", hash = "sha256:00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3"},
+]
 
 [[package]]
 name = "prometheus-client"
@@ -2586,4 +2613,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "4a7bf8f0291c88d490d2a8128df20c4ff0108080987945f7433b1675c0d0fc8d"
+content-hash = "7b475803089d3e9207a6de0423898f769160de9c8cf20779b2f465faa34f4342"
