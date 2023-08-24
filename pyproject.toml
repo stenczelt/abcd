@@ -6,16 +6,17 @@ authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-notebook = "^6.5.4"
-numpy = "^1.24.3"
-tqdm = "^4.65.0"
-pymongo = "^4.3.3"
-opensearch-py = "^2.2.0"
-matplotlib = "^3.7.1"
 ase = "^3.22.1"
 lark = "^1.1.5"
 luqum = "^0.13.0"
+matplotlib = "^3.7.1"
+notebook = "^6.5.4"
+numpy = "^1.24.3"
+opensearch-py = "^2.2.0"
+pandas = "^2.0.3"
+pymongo = "^4.3.3"
+python = "^3.8"
+tqdm = "^4.65.0"
 
 [tool.poetry.group.dev.dependencies]
 mongomock = "^4.1.2"
