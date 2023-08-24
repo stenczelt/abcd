@@ -43,7 +43,7 @@ class Hasher(object):
             self.method.update(value)
 
         else:
-            raise ValueError("The {} type cannot be hashed! (Value: {})", format(type(value), value))
+            raise ValueError(f"The {type(value)} type cannot be hashed! (Value: {value})")
 
     def __call__(self):
         """Retrieve the digest of the hash."""
