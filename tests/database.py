@@ -5,13 +5,13 @@ from openmock import openmock
 from abcd import ABCD
 import logging
 
-class Mongo(unittest.TestCase):
 
+class Mongo(unittest.TestCase):
     @classmethod
-    @mongomock.patch(servers=(('localhost', 27017),))
+    @mongomock.patch(servers=(("localhost", 27017),))
     def setUpClass(cls):
         logging.basicConfig(level=logging.INFO)
-        url = 'mongodb://localhost'
+        url = "mongodb://localhost"
         abcd = ABCD.from_url(url)
         abcd.print_info()
 
@@ -29,13 +29,15 @@ class Mongo(unittest.TestCase):
         from ase.io import read
         from ase.atoms import Atoms
 
-        xyz = StringIO("""2
+        xyz = StringIO(
+            """2
             Properties=species:S:1:pos:R:3 s="sadf" _vtk_test="t e s t _ s t r" pbc="F F F"
             Si       0.00000000       0.00000000       0.00000000
             Si       0.00000000       0.00000000       0.00000000
-            """)
+            """
+        )
 
-        atoms = read(xyz, format='extxyz')
+        atoms = read(xyz, format="extxyz")
         assert isinstance(atoms, Atoms)
         atoms.set_cell([1, 1, 1])
 
@@ -48,13 +50,13 @@ class Mongo(unittest.TestCase):
 
 
 class OpenSearch(unittest.TestCase):
-
     @classmethod
     @openmock
     def setUpClass(cls):
         from abcd.backends.atoms_opensearch import OpenSearchDatabase
+
         logging.basicConfig(level=logging.INFO)
-        url = 'opensearch://admin:admin@localhost:9200'
+        url = "opensearch://admin:admin@localhost:9200"
         abcd = ABCD.from_url(url, index_name="test_index", analyse_schema=False)
         assert isinstance(abcd, OpenSearchDatabase)
         cls.abcd = abcd
@@ -80,28 +82,37 @@ class OpenSearch(unittest.TestCase):
         from ase.io import read
         from ase.atoms import Atoms
         from abcd.backends.atoms_opensearch import AtomsModel
+
         self.abcd.destroy()
         self.abcd.create()
-        xyz_1 = StringIO("""2
+        xyz_1 = StringIO(
+            """2
             Properties=species:S:1:pos:R:3 s="sadf" _vtk_test="t e s t _ s t r" pbc="F F F"
             Si       0.00000000       0.00000000       0.00000000
             Si       0.00000000       0.00000000       0.00000000
-            """)
-        atoms_1 = read(xyz_1, format='extxyz')
+            """
+        )
+        atoms_1 = read(xyz_1, format="extxyz")
         assert isinstance(atoms_1, Atoms)
         atoms_1.set_cell([1, 1, 1])
         self.abcd.push(atoms_1)
 
-        xyz_2 = StringIO("""2
+        xyz_2 = StringIO(
+            """2
             Properties=species:S:1:pos:R:3 s="sadf" _vtk_test="t e s t _ s t r" pbc="F F F"
             W       0.00000000       0.00000000       0.00000000
             W       0.00000000       0.00000000       0.00000000
-            """)
-        atoms_2 = read(xyz_2, format='extxyz')
+            """
+        )
+        atoms_2 = read(xyz_2, format="extxyz")
         assert isinstance(atoms_2, Atoms)
         atoms_2.set_cell([1, 1, 1])
 
-        result = AtomsModel(None, None, self.abcd.client.search(index="test_index")["hits"]["hits"][0]["_source"]).to_ase()
+        result = AtomsModel(
+            None,
+            None,
+            self.abcd.client.search(index="test_index")["hits"]["hits"][0]["_source"],
+        ).to_ase()
         assert atoms_1 == result
         assert atoms_2 != result
 
@@ -110,22 +121,27 @@ class OpenSearch(unittest.TestCase):
         from ase.io import read
         from ase.atoms import Atoms
         from abcd.backends.atoms_opensearch import AtomsModel
+
         self.abcd.destroy()
         self.abcd.create()
-        xyz_1 = StringIO("""2
+        xyz_1 = StringIO(
+            """2
             Properties=species:S:1:pos:R:3 s="sadf" _vtk_test="t e s t _ s t r" pbc="F F F"
             Si       0.00000000       0.00000000       0.00000000
             Si       0.00000000       0.00000000       0.00000000
-            """)
-        atoms_1 = read(xyz_1, format='extxyz')
+            """
+        )
+        atoms_1 = read(xyz_1, format="extxyz")
         assert isinstance(atoms_1, Atoms)
         atoms_1.set_cell([1, 1, 1])
 
-        xyz_2 = StringIO("""1
+        xyz_2 = StringIO(
+            """1
             Properties=species:S:1:pos:R:3 s="sadf" _vtk_test="t e s t _ s t r" pbc="F F F"
             Si       0.00000000       0.00000000       0.00000000
-            """)
-        atoms_2 = read(xyz_2, format='extxyz')
+            """
+        )
+        atoms_2 = read(xyz_2, format="extxyz")
         assert isinstance(atoms_2, Atoms)
         atoms_2.set_cell([1, 1, 1])
 
@@ -135,8 +151,16 @@ class OpenSearch(unittest.TestCase):
         self.abcd.push(atoms_list)
         assert self.abcd.count() == 2
 
-        result_1 = AtomsModel(None, None, self.abcd.client.search(index="test_index")["hits"]["hits"][0]["_source"]).to_ase()
-        result_2 = AtomsModel(None, None, self.abcd.client.search(index="test_index")["hits"]["hits"][1]["_source"]).to_ase()
+        result_1 = AtomsModel(
+            None,
+            None,
+            self.abcd.client.search(index="test_index")["hits"]["hits"][0]["_source"],
+        ).to_ase()
+        result_2 = AtomsModel(
+            None,
+            None,
+            self.abcd.client.search(index="test_index")["hits"]["hits"][1]["_source"],
+        ).to_ase()
         assert atoms_1 == result_1
         assert atoms_2 == result_2
 
@@ -144,20 +168,24 @@ class OpenSearch(unittest.TestCase):
         from io import StringIO
         from ase.io import read
         from ase.atoms import Atoms
+
         self.abcd.destroy()
         self.abcd.create()
-        xyz = StringIO("""2
+        xyz = StringIO(
+            """2
             Properties=species:S:1:pos:R:3 s="sadf" _vtk_test="t e s t _ s t r" pbc="F F F"
             Si       0.00000000       0.00000000       0.00000000
             Si       0.00000000       0.00000000       0.00000000
-            """)
+            """
+        )
 
-        atoms = read(xyz, format='extxyz')
+        atoms = read(xyz, format="extxyz")
         assert isinstance(atoms, Atoms)
         atoms.set_cell([1, 1, 1])
         self.abcd.push(atoms)
         self.abcd.push(atoms)
         assert self.abcd.count() == 2
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main(verbosity=1, exit=False)
