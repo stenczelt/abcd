@@ -19,6 +19,8 @@ python = "^3.8"
 tqdm = "^4.65.0"
 
 [tool.poetry.group.dev.dependencies]
+black = "^22.3.0"
+flake8 = "^3.7.9"
 mongomock = "^4.1.2"
 openmock = "^2.2"
 
@@ -28,3 +30,19 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.plugins."console_scripts"]
 "abcd" = "abcd.frontends.commandline:main"
+
+[tool.black]
+line-length = 88
+extend-exclude = '''
+/(
+    abcd/backends/atoms_pymongo.py
+    | abcd/frontends
+    | abcd/model.py
+    | abcd/parsers/queries_new.py
+    | abcd/parsers/queries.py
+    | abcd/parsers/extras.py
+    | abcd/server
+    | tests/__init__.py
+
+)/
+'''
