@@ -21,6 +21,8 @@ pandas = "^2.0.3"
 pymongo = "^4.3.3"
 python = "^3.8"
 tqdm = "^4.65.0"
+chardet = "^5.2.0"
+openpyxl = "^3.1.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.3.0"
