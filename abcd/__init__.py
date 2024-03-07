@@ -1,6 +1,6 @@
 import logging
-from urllib import parse
 from enum import Enum
+from urllib import parse
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +39,13 @@ class ABCD(object):
             from abcd.backends.atoms_pymongo import MongoDatabase
 
             return MongoDatabase(db_name=db, **conn_settings, **kwargs)
+        elif r.scheme == "mongodb+srv":
+            db = r.path.split("/")[1] if r.path else None
+            db = db if db else "abcd"
 
+            from abcd.backends.atoms_pymongo import MongoDatabase
+
+            return MongoDatabase(db_name=db, host=r.geturl(), uri_mode=True, **kwargs)
         elif r.scheme == "http" or r.scheme == "https":
             raise NotImplementedError("http not yet supported! soon...")
         elif r.scheme == "ssh":

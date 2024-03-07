@@ -180,14 +180,16 @@ class MongoDatabase(AbstractABCD):
                 kwargs,
             )
         )
-
-        self.client = MongoClient(
-            host=host,
-            port=port,
-            username=username,
-            password=password,
-            authSource=authSource,
-        )
+        if uri_mode:
+            self.client = MongoClient(host=host, authSource=authSource)
+        else:
+            self.client = MongoClient(
+                host=host,
+                port=port,
+                username=username,
+                password=password,
+                authSource=authSource,
+            )
 
         try:
             info = self.client.server_info()  # Forces a call.
