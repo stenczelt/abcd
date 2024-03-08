@@ -1,12 +1,13 @@
 import datetime
 import getpass
 import logging
-from hashlib import md5
+import math
 from collections import Counter, UserDict
-from ase.calculators.singlepoint import SinglePointCalculator
+from hashlib import md5
 
 import numpy as np
 from ase import Atoms
+from ase.calculators.singlepoint import SinglePointCalculator
 
 logger = logging.getLogger(__name__)
 
@@ -250,7 +251,13 @@ class AbstractModel(UserDict):
         return atoms
 
     def pre_save(self):
-        self.derived_keys = ["elements", "username", "uploaded", "modified"]
+        self.derived_keys = [
+            "elements",
+            "username",
+            "uploaded",
+            "modified",
+            "reduced_composition",
+        ]
 
         cell = self["cell"]
 
@@ -265,8 +272,11 @@ class AbstractModel(UserDict):
                 self["pressure"] = -1 / 3 * np.trace(virial / volume)
                 self.derived_keys.append("pressure")
 
-        # 'elements': Counter(atoms.get_chemical_symbols()),
         self["elements"] = Counter(str(element) for element in self["numbers"])
+        composition_gcd = math.gcd(*self["elements"].values())
+        self["reduced_composition"] = {
+            z: int(count / composition_gcd) for z, count in self["elements"].items()
+        }
 
         self["username"] = getpass.getuser()
 
@@ -294,7 +304,6 @@ class AbstractModel(UserDict):
 
 
 if __name__ == "__main__":
-    import io
     from pprint import pprint
     from ase.io import read
 
