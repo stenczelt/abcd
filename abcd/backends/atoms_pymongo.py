@@ -53,8 +53,9 @@ class AtomsModel(AbstractModel):
 
     def save(self):
         if not self._id:
-            self._collection.insert(self)
+            return self._collection.insert_one(self).inserted_id
         else:
+            # fixme outdated API & self likely won't work as-is here in current version
             self._collection.update({"_id": ObjectId(self._id)}, self)
 
     def remove(self):
@@ -164,6 +165,7 @@ class MongoDatabase(AbstractABCD):
         username=None,
         password=None,
         authSource="admin",
+        uri_mode=False,
         **kwargs
     ):
         super().__init__()
@@ -232,16 +234,18 @@ class MongoDatabase(AbstractABCD):
             data = AtomsModel.from_atoms(
                 self.collection, atoms, extra_info=extra_info, store_calc=store_calc
             )
-            data.save()
-            # self.collection.insert_one(data)
-
+            return data.save()
         elif isinstance(atoms, types.GeneratorType) or isinstance(atoms, list):
-
+            # fixme: could use a generator here
+            insertion_ids = []
             for item in atoms:
                 data = AtomsModel.from_atoms(
                     self.collection, item, extra_info=extra_info, store_calc=store_calc
                 )
-                data.save()
+                insertion_ids.append(data.save())
+            return insertion_ids
+        else:
+            raise NotImplementedError
 
     def upload(self, file: Path, extra_infos=None, store_calc=True):
 
